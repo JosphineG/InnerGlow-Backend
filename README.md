@@ -2,7 +2,7 @@
 
 # InnerGlow-Backend
 
-<p> The backend api for the Amredi mobile application </p>
+<p> The backend api for the InnerGlow web application </p>
 </div>
 
 ## Getting started
