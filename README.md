@@ -1,6 +1,6 @@
 <div align="center">
 
-# Amredi-Backend
+# InnerGlow-Backend
 
 <p> The backend api for the Amredi mobile application </p>
 </div>
@@ -110,34 +110,3 @@
    "email": "mainamaich@gmail.com",
 ```
 
-## Connect
-
-> **request**
-
-- url: amredi-backend.vercel.app/api/v1/user/connect
-- method: GET
-- headers:
-
-  ```yaml
-  Content-Type: application/json
-  Authorization: Bearer <token>
-  ```
-
-> **response**
-
-- status code: `200`
-- response body:
-
-```json
-[
-  {
-    "first_name": "Antony",
-    "last_name": "Kariuki",
-    "location": "Nairobi, Kenya"
-  },
-  {
-    "first_name": "Antony",
-    "last_name": "Kariuki",
-    "location": "Nairobi, Kenya"
-  }
-]
