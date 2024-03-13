@@ -6,7 +6,7 @@ const {
   createArticle,
   updateArticle,
   deleteArticle,
-} = require("../controllers/articleController");
+} = require("../controllers/article");
 
 // Article routes
 articleRouter.get("/articles", getAllArticles);

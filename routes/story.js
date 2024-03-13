@@ -4,6 +4,7 @@ const {
   getAllStories,
   getStoryById,
   createStory,
+  updateStory,
   deleteStory,
 } = require("../controllers/story");
 const { verifyAccessToken } = require("../helpers/getJwt");
