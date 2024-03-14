@@ -7,6 +7,9 @@ const { authRouter } = require("./routes/auth");
 const { userRouter } = require("./routes/user");
 require("./helpers/mongoDBHelper");
 const multer = require("multer");
+const { articleRouter } = require("./routes/article");
+const { storyRouter } = require("./routes/story");
+
 const upload = multer();
 dotenv.config();
 const app = express();
@@ -20,12 +23,14 @@ app.use(cors());
 
 app.get("/", async (req, res) => {
   res.status(200).json({
-    "Hello there": "Welcome to the inner glow app",
+    "Hello there": "Welcome to the innerglow api",
   });
 });
 
 app.use("/api/v1", authRouter);
 app.use("/api/v1", userRouter);
+app.use("/api/v1", articleRouter);
+app.use("/api/v1", storyRouter);
 
 // error handling
 app.use(async (req, res, next) => {
