@@ -6,6 +6,7 @@ exports.registerSchema = joi.object({
     .string()
     .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
     .required(),
-  password: joi.string().pattern(new RegExp("^[a-zA-Z0-9]{3,30}$")).required(),
+  password: joi.string().min(4).required(),
+  // password: joi.string().pattern(new RegExp("^[a-zA-Z0-9]{3,30}$")).required(),
   confirm_password: joi.ref("password"),
 });
