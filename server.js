@@ -9,6 +9,7 @@ require("./helpers/mongoDBHelper");
 const multer = require("multer");
 const { articleRouter } = require("./routes/article");
 const { storyRouter } = require("./routes/story");
+const { chatRouter } = require("./routes/chat");
 
 const upload = multer();
 dotenv.config();
@@ -31,6 +32,7 @@ app.use("/api/v1", authRouter);
 app.use("/api/v1", userRouter);
 app.use("/api/v1", articleRouter);
 app.use("/api/v1", storyRouter);
+app.use("/api/v1", chatRouter);
 
 // error handling
 app.use(async (req, res, next) => {
