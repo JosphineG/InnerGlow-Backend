@@ -51,7 +51,7 @@ exports.getArticleById = async (req, res) => {
     if (!article) {
       return res.status(404).json({ error: "Article not found" });
     }
-    resstatus(200).json(article);
+    res.status(200).json(article);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Internal server error", err });
