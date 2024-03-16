@@ -23,6 +23,7 @@ exports.Register = async (req, res, next) => {
     return res.status(200).json({
       status: "success",
       message: "user registerd successfully",
+      userId: user._id,
     });
   } catch (error) {
     next(error);
