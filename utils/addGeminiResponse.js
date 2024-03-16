@@ -59,11 +59,14 @@ async function runChat(prompt) {
       },
     ],
   });
-
-  const result = await chat.sendMessage(prompt);
-  const response = await result.response;
-  console.log(response);
-  return response.text();
+  try {
+    const result = await chat.sendMessage(prompt);
+    const response = await result.response;
+    return response.text()
+      
+  } catch (error) {
+    // console.error(`an error has occured: ${error.message}`)
+  }
 }
 
 module.exports = { runChat };

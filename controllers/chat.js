@@ -33,8 +33,9 @@ exports.chatWithGemini = async (req, res) => {
   try {
     const { prompt } = req.body;
     const { id } = req.params;
-    const response = await runChat(prompt);
-
+    let response = await runChat(prompt);
+    let text = "Sorry, some prompts are limited for safety. Would you like to try rephrasing your prompt or choosing a different one? I'm happy to help you explore some ideas";
+    response = response ?? text;
     const chat = await chatModel.findById(id);
     if (!chat) {
       return res.status(404).json({ error: "Chat not found" });
