@@ -110,3 +110,48 @@
    "email": "mainamaich@gmail.com",
 ```
 
+## Forget Password
+> **request**
+
+- url: amredi-backend.vercel.app/api/v1/user/edit-profile
+- method: POST
+
+* request body:
+  ```
+  email: string
+  ```
+
+> **response**
+
+- status code: `200`
+- response body:
+
+```json
+   "success": "change password link sent to the user email",
+```
+- `Forgot password` email is sent to the user with a token as a query param
+
+
+## Reset Passwor
+> **request**
+
+- url: amredi-backend.vercel.app/api/v1/user/edit-profile
+- method: GET
+
+* query params:
+  ```
+  token: string
+  ```
+  ```json
+  example of a url:  https:/api/v1/auth/reset-password?token="random string"
+  ```
+
+> **response**
+
+- status code: `200`
+- response body:
+
+```json
+   "success": "change password link sent to the user email",
+```
+- `Forgot password` email is sent to the user with a token as a query param
