@@ -111,6 +111,7 @@
 ```
 
 ## Forget Password
+
 > **request**
 
 - url: amredi-backend.vercel.app/api/v1/user/edit-profile
@@ -129,10 +130,11 @@
 ```json
    "success": "change password link sent to the user email",
 ```
+
 - `Forgot password` email is sent to the user with a token as a query param
 
+## Reset Password
 
-## Reset Passwor
 > **request**
 
 - url: amredi-backend.vercel.app/api/v1/user/edit-profile
@@ -152,6 +154,34 @@
 - response body:
 
 ```json
-   "success": "change password link sent to the user email",
+   "email": "users email",
 ```
-- `Forgot password` email is sent to the user with a token as a query param
+
+- `User email` is sent to the frontend if the token was valid.
+
+## Reset Password
+
+> **request**
+
+- url: amredi-backend.vercel.app/api/v1/user/edit-profile
+- method: POST
+
+* query params:
+  ```
+  token: string
+  ```
+* request body :
+```json
+{ 
+   "password": "The new password",
+   "email": "users email",
+ }
+```
+> **response**
+
+- status code: `200`
+- response body:
+
+```json
+   "success": "password set successfully",
+```
