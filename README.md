@@ -26,7 +26,7 @@
 
 > **request**
 
-- url: amredi-backend.vercel.app/api/v1/auth/register
+- url: inner-glow-backend.vercel.app/api/v1/auth/register
 - method: POST
 - example of a request body:
   ```json
@@ -51,7 +51,7 @@
 
 > **request**
 
-- url: amredi-backend.vercel.app/api/v1/auth/login
+- url: inner-glow-backend.vercel.app/api/v1/auth/login
 - method: POST
 - request body:
   ```json
@@ -71,7 +71,7 @@
 
 > **request**
 
-- url: amredi-backend.vercel.app/api/v1/user/profile
+- url: inner-glow-backend.vercel.app/api/v1/user/profile
 - method: GET
 
 > **response**
@@ -88,7 +88,7 @@
 
 > **request**
 
-- url: amredi-backend.vercel.app/api/v1/user/edit-profile
+- url: inner-glow-backend.vercel.app/api/v1/user/edit-profile
 - method: POST
 
 * request body:
@@ -114,7 +114,7 @@
 
 > **request**
 
-- url: amredi-backend.vercel.app/api/v1/user/edit-profile
+- url: inner-glow-backend.vercel.app/api/v1/user/forget-password
 - method: POST
 
 * request body:
@@ -137,7 +137,7 @@
 
 > **request**
 
-- url: amredi-backend.vercel.app/api/v1/user/edit-profile
+- url: inner-glow-backend.vercel.app/api/v1/user/reset-password
 - method: GET
 
 * query params:
@@ -163,7 +163,7 @@
 
 > **request**
 
-- url: amredi-backend.vercel.app/api/v1/user/edit-profile
+- url: inner-glow-backend.vercel.app/api/v1/user/reset-password
 - method: POST
 
 * query params:
