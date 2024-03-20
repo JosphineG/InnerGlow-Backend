@@ -52,4 +52,14 @@ const verifyAccessToken = (req, res, next) => {
   }
 };
 
-module.exports = { generateAccessToken, verifyAccessToken }
+//  verify the token used to reset the new password 
+const verifyResetToken = (token) => {
+  try {
+    const payload = jwt.verify(token, process.env.AccessTokenSecretKey)
+    return payload
+  } catch (error) {
+    return null
+  }
+}
+
+module.exports = { generateAccessToken, verifyAccessToken, verifyResetToken}

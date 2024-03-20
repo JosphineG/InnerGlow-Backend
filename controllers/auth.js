@@ -2,7 +2,7 @@ const createError = require("http-errors");
 const bcrypt = require("bcrypt");
 const { registerSchema } = require("../helpers/shemaValidation");
 const { userModel } = require("../models/userModel");
-const { generateAccessToken, verifyAccessToken } = require("../helpers/getJwt");
+const { generateAccessToken, verifyAccessToken, verifyResetToken } = require("../helpers/getJwt");
 const { sendMail } = require("../utils/sendMail");
 
 exports.Register = async (req, res, next) => {
@@ -100,14 +100,14 @@ exports.forgotPassword = async (req, res) => {
 exports.VerifyResetToken = async (req, res, next) => {
   try {
     const { token } = req.query;
-    await verifyAccessToken(token);
-    return res.status(200).json({ email: req.payload.email });
+    const payload =  await verifyResetToken(token);
+    if(!payload){
+      throw createError.BadRequest("Invalid link. please use the link sent to your email ..")
+    }
+    return res.status(200).json({ email: payload.email });
   } catch (error) {
-    console.log(error);
-    const err = createError.BadRequest(
-      "Invalid link. please use the link sent to your email"
-    );
-    next(err);
+    console.error(error);
+    next(error);
   }
 };
 
