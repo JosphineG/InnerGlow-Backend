@@ -2,7 +2,7 @@ const createError = require("http-errors");
 const bcrypt = require("bcrypt");
 const { registerSchema } = require("../helpers/shemaValidation");
 const { userModel } = require("../models/userModel");
-const { generateAccessToken, verifyAccessToken, verifyResetToken } = require("../helpers/getJwt");
+const { generateAccessToken, verifyResetToken } = require("../helpers/getJwt");
 const { sendMail } = require("../utils/sendMail");
 
 exports.Register = async (req, res, next) => {
