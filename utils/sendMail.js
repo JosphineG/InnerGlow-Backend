@@ -22,7 +22,7 @@ exports.sendMail = (payload)=> {
       if(error){
          reject(error)
       }
-      resolve(info.response)
+      resolve(info?.response)
     })
   });
 }

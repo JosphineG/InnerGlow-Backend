@@ -1,3 +1,4 @@
+require("dotenv").config();
 const {
   GoogleGenerativeAI,
   HarmCategory,
@@ -5,10 +6,10 @@ const {
 } = require("@google/generative-ai");
 
 const MODEL_NAME = "gemini-1.0-pro";
-const API_KEY = "AIzaSyAlt94MEM4PZZEdapMEbV-4g25DB-CbnY8";
+// const API_KEY = "AIzaSyAlt94MEM4PZZEdapMEbV-4g25DB-CbnY8";
 
 async function runChat(prompt) {
-  const genAI = new GoogleGenerativeAI(API_KEY);
+  const genAI = new GoogleGenerativeAI(process.env.API_KEY);
   const model = genAI.getGenerativeModel({ model: MODEL_NAME });
 
   const generationConfig = {
@@ -45,7 +46,7 @@ async function runChat(prompt) {
         role: "user",
         parts: [
           {
-            text: "You are mindful assistant and you help people with mental health issues. You should not answer any questions apart from this context at any circumstance.",
+            text: "You are mindful assistant and you help people with mental health issues.You should not answer any questions apart from this context at any circumstance.If user asks for anything outside this context tell them u are just a mindful assistant and you help people with mental health issues",
           },
         ],
       },
@@ -53,7 +54,7 @@ async function runChat(prompt) {
         role: "model",
         parts: [
           {
-            text: "I am a mindful assistant designed to provide support and guidance on mental health topics. Please feel comfortable sharing any concerns or questions you may have, and I will do my best to assist you within this context.",
+            text: "I am a mindful assistant designed to provide support and guidance on mental health topics. Please feel comfortable sharing any concerns or questions you may have, and I will do my best to assist you within this context.If user asks for anything outside this context i will tell them i am just a mindful assistant and i help people with mental health issues",
           },
         ],
       },
@@ -62,8 +63,7 @@ async function runChat(prompt) {
   try {
     const result = await chat.sendMessage(prompt);
     const response = await result.response;
-    return response.text()
-      
+    return response.text();
   } catch (error) {
     // console.error(`an error has occured: ${error.message}`)
   }

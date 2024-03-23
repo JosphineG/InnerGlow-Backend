@@ -1,6 +1,14 @@
+const cloudinary = require("cloudinary").v2;
 const articleSchema = require("../models/articleSchema");
 const Article = require("../models/articleSchema");
 const { userModel } = require("../models/userModel");
+const { ObjectId } = require("mongodb");
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
 // Controller for getting all articles
 exports.getAllArticles = async (req, res) => {
   try {
@@ -51,7 +59,24 @@ exports.getArticleById = async (req, res) => {
     if (!article) {
       return res.status(404).json({ error: "Article not found" });
     }
-    res.status(200).json(article);
+    // Find the user who created the article
+    const user = await userModel.findById(article.createdBy);
+
+    if (!user) {
+      console.log("User not found");
+      return res.status(500).json({ error: "User not found" });
+    }
+
+    const articleData = {
+      image: article?.imageUrls,
+      _id: article?._id,
+      title: article?.title,
+      description: article?.description,
+      createdBy: user.username,
+      category: article?.category,
+      time: article?.time,
+    };
+    res.status(200).json(articleData);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Internal server error", err });
@@ -61,39 +86,78 @@ exports.getArticleById = async (req, res) => {
 // Controller for creating an article
 exports.createArticle = async (req, res) => {
   try {
-    const user = await userModel.findById(req.payload.aud);
-    // console.log(user);
-    if (!user) {
-      return res.status(404).json({ error: "User not found" });
+    // Assuming only one file is uploaded
+    if (req.body.image !== "undefined") {
+      const imageFile = req?.files[0];
+      const user = await userModel.findById(req.payload.aud);
+      // console.log(user);
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+      // Access other form fields from req.body
+      const { title, description } = req.body;
+
+      // Convert image buffer to Base64 string
+      const imageBuffer = imageFile?.buffer?.toString("base64");
+
+      // Upload the image to Cloudinary as Base64 string
+      const result = await cloudinary.uploader.upload(
+        `data:${imageFile?.mimetype};base64,${imageBuffer}`,
+        {
+          folder: "innerglow",
+        }
+      );
+
+      // Create the post with the uploaded image URL
+      const article = await Article.create({
+        title,
+        description,
+        image: {
+          publicId: result.public_id,
+          url: result.secure_url,
+        },
+        createdBy: user._id,
+      });
+
+      res.status(201).json({
+        message: "article created successfully",
+        article,
+      });
+    } else {
+      const user = await userModel.findById(req.payload.aud);
+      // console.log(user);
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+      // Access other form fields from req.body
+      const { title, description, category } = req.body;
+      // Create the article with the uploaded image URL
+      const article = await articleSchema.create({
+        title,
+        description,
+        image: {
+          publicId: null,
+          url: null,
+        },
+        category,
+        createdBy: user._id,
+      });
+
+      let articleData = {
+        title,
+        description,
+        image: {
+          publicId: null,
+          url: null,
+        },
+        category,
+        createdBy: user.username,
+      };
+      res.status(201).json({
+        message: "article created successfully",
+        articleData,
+      });
     }
-    // Access other form fields from req.body
-    const { title, description, category } = req.body;
-    // Create the article with the uploaded image URL
-    const article = await articleSchema.create({
-      title,
-      description,
-      image: {
-        publicId: null,
-        url: null,
-      },
-      category,
-      createdBy: user._id,
-    });
-    
-    let articleData = {
-      title,
-      description,
-      image: {
-        publicId: null,
-        url: null,
-      },
-      category,
-      createdBy: user.username,
-    };
-    res.status(201).json({
-      message: "article created successfully",
-      articleData,
-    });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Internal server error", err });
