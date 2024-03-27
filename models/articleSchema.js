@@ -17,12 +17,10 @@ const articleSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  imageUrls: [
-    {
-      type: String, // Store the URLs of the images uploaded to Cloudinary
-      required: true,
-    },
-  ],
+  image: {
+    publicId: String, //Cloudinary public ID
+    url: String, //full image URL
+  },
 });
 
 module.exports = mongoose.model("Article", articleSchema);

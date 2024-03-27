@@ -68,7 +68,7 @@ exports.getArticleById = async (req, res) => {
     }
 
     const articleData = {
-      image: article?.imageUrls,
+      image: article?.image?.url,
       _id: article?._id,
       title: article?.title,
       description: article?.description,
@@ -86,8 +86,9 @@ exports.getArticleById = async (req, res) => {
 // Controller for creating an article
 exports.createArticle = async (req, res) => {
   try {
+    console.log("image",req?.files[0]);
     // Assuming only one file is uploaded
-    if (req.body.image !== "undefined") {
+    if (req?.files) {
       const imageFile = req?.files[0];
       const user = await userModel.findById(req.payload.aud);
       // console.log(user);
@@ -107,7 +108,7 @@ exports.createArticle = async (req, res) => {
           folder: "innerglow",
         }
       );
-
+      console.log("result", result);
       // Create the post with the uploaded image URL
       const article = await Article.create({
         title,
@@ -122,40 +123,6 @@ exports.createArticle = async (req, res) => {
       res.status(201).json({
         message: "article created successfully",
         article,
-      });
-    } else {
-      const user = await userModel.findById(req.payload.aud);
-      // console.log(user);
-      if (!user) {
-        return res.status(404).json({ error: "User not found" });
-      }
-      // Access other form fields from req.body
-      const { title, description, category } = req.body;
-      // Create the article with the uploaded image URL
-      const article = await articleSchema.create({
-        title,
-        description,
-        image: {
-          publicId: null,
-          url: null,
-        },
-        category,
-        createdBy: user._id,
-      });
-
-      let articleData = {
-        title,
-        description,
-        image: {
-          publicId: null,
-          url: null,
-        },
-        category,
-        createdBy: user.username,
-      };
-      res.status(201).json({
-        message: "article created successfully",
-        articleData,
       });
     }
   } catch (err) {
